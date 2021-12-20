@@ -5,12 +5,12 @@ import json
 client = discord.Client()
 
 def add_person(nom):
-    nom = nom.lower()
+    nom1 = nom.lower()
     with open('save.txt') as f:
         data = f.read()
     lis = json.loads(data)
-    if nom not in lis:
-        lis[nom] = [0, 0]
+    if nom1 not in lis:
+        lis[nom1] = [0, 0]
     else:
         return (-1)
     with open('save.txt', 'w') as convert_file:
