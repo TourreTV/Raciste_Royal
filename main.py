@@ -106,6 +106,7 @@ async def on_message(message):
         embedVar.add_field(name="$racistes", value="Affiche tous les racistes", inline=False)
         embedVar.add_field(name="$reset", value="Reset tous les scores", inline=False)
         embedVar.add_field(name="$res [nom]", value="Reset quelqu'un", inline=False)
+        embedVar.add_field(name="$amogos", value="Amogos", inline=False)
         await message.channel.send(embed=embedVar)
     
     if message.content.startswith('$racistes'):
@@ -117,6 +118,10 @@ async def on_message(message):
     if message.content.startswith('$reset'):
         reset()
         await message.channel.send("RESET")
+
+    if message.content.startswith('$amogos'):
+        f = open("amogos.txt", "r")
+        await message.channel.send(f.read())
 
     if message.content.startswith('$res '):
         nom = message.content.split()[1]
