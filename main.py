@@ -4,9 +4,15 @@ import json
 
 client = discord.Client()
 
-with open('admins.txt') as f:
-    data = f.read()
-admins = lis = json.loads(data);
+
+def check_admin(mt):
+    with open('admins.txt') as f:
+        data = f.read()
+    admins = json.loads(data);
+    if (mt in admins):
+        return (1)
+    else:
+        return (0)
 
 def add_person(nom):
     nom1 = nom.lower()
@@ -110,6 +116,19 @@ def res(nom):
     with open('save.txt', 'w') as convert_file:
      convert_file.write(json.dumps(lis))
 
+def del_person(nom):
+    nom1 = nom.lower()
+    with open('save.txt') as f:
+        data = f.read()
+    lis = json.loads(data)
+    if nom1 not in lis:
+        del lis[nom1]
+    else:
+        return (-1)
+    with open('save.txt', 'w') as convert_file:
+        convert_file.write(json.dumps(lis))
+    return (1)
+
 @client.event
 async def on_ready():
     print('Wesh {0.user}'.format(client))
@@ -170,6 +189,7 @@ async def on_message(message):
         embedVar.add_field(name="$reset", value="Reset tous les scores", inline=False)
         embedVar.add_field(name="$res [nom]", value="Reset quelqu'un", inline=False)
         embedVar.add_field(name="$droits", value="Verifier si t'as des droits en plus", inline=False)
+        embedVar.add_field(name="$suppr [nom]", value="Supprimer un raciste", inline=False)
         embedVar.add_field(name="$amogos", value="Amogos", inline=False)
         await message.channel.send(embed=embedVar)
     
@@ -179,8 +199,18 @@ async def on_message(message):
             embedVar.add_field(name=i[0].upper() + i[1:], value=check(i)[0], inline=False)
         await message.channel.send(embed=embedVar)
 
+    if message.content.startswith('$suppr '):
+        nom = message.content.split()[1]
+        if (check_admin(message.author.mention)):
+            if del_person(nom) == 1:
+                await message.channel.send(f"J'ai supprimé {nom[0].upper()}{nom[1:]} ♻")
+            else:
+                await message.channel.send(f"{nom[0].upper()}{nom[1:]} existe pas ♻")
+        else:
+            await message.channel.send("T'as pas les droits bg ❌")
+
     if message.content.startswith('$reset'):
-        if (message.author.mention in admins):
+        if (check_admin(message.author.mention)):
             reset()
             await message.channel.send("RESET TLMD ♻")
         else:
@@ -192,14 +222,14 @@ async def on_message(message):
 
     if message.content.startswith('$res '):
         nom = message.content.split()[1]
-        if (message.author.mention in admins):
+        if (check_admin(message.author.mention)):
             res(nom)
             await message.channel.send("RESET "+nom+" ♻")
         else:
             await message.channel.send("T'as pas les droits bg ❌")
 
     if message.content.startswith('$droits'):
-        if (message.author.mention in admins):
+        if (check_admin(message.author.mention)):
             await message.channel.send("Toi t'as les droits bg ✅")
         else:
             await message.channel.send("T'as pas les droits bg ❌")
