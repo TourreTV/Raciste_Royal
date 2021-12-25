@@ -234,4 +234,4 @@ async def on_message(message):
         else:
             await message.channel.send("T'as pas les droits bg ❌")
 
-client.run("Nzc4NjEzOTcyMzY1NjA2OTU0.X7UixA.4m1b6RupgdiBo5LJHjEEOaE17K8")
+client.run("")
