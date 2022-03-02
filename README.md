@@ -1,1 +1,1 @@
-Bot discord qui permet de voter pour attribuer ou enelever des points de racisme
+Bot discord qui permet de voter pour attribuer ou enlever des points de racisme
